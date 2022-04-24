@@ -3,58 +3,58 @@ How to integrate google map with making marker cluster  in Angular dynamically.
 
 
 Install googlemaps using below command,
-*npm install --save @types/googlemaps
+ npm install --save @types/googlemaps
 
 Before Integrating Make sure buy a ApiKey from google cloud platform and add in your index.html file,
- * <script src="http://maps.googleapis.com/maps/api/js?key=APIKEY"></script>
- * APIKEY = your apikwy
+ <script src="http://maps.googleapis.com/maps/api/js?key=APIKEY"></script>
+ APIKEY = your apikwy
   
   
 If you want to add heat map layer your script will be like below,
-  *<script src="http://maps.googleapis.com/maps/api/js?key=APIKEY&libraries=visualization&callback=initMap"></script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=APIKEY&libraries=visualization&callback=initMap"></script>
 
 Rendering value from base component to map component using button click,
 basecomponent.html,
-     *<button  class="okcl btn btn-secondary down"
-      *          (click)="btnclick()">MapView</button> 
+    <button  class="okcl btn btn-secondary down"
+               (click)="btnclick()">MapView</button> 
 
-   *   <div id="comp-render" *ngIf="display">
-    *    <app-map [gmapList]="gmapList"></app-map>
-   * </div>
+     <div id="comp-render" *ngIf="display">
+       <app-map [gmapList]="gmapList"></app-map>
+    </div>
 baseComponent.ts,
-* @Output() gmapList:any[] = [] 
- * //gmapList - your input data,..
+ @Output() gmapList:any[] = [] 
+  //gmapList - your input data,..
   
 Mapcomponent.html,
-*<div #map style="width:100%;height:600px"></div>
+<div #map style="width:100%;height:600px"></div>
 
 Mapcomponent.ts,
 
-* map: any;
- * heatmap: google.maps.visualization.HeatmapLayer; 
-  *@ViewChild('map', {static:true}) mapElement:any;
- * @Input() gmapList=[];
-  *gmpDupList:any[]=[];
-  *markerArray:any[]=[];
-  *current_value = [];
-  *prev_value=[];
-  *latitude = 43.879078;
-  *longitude = -103.4615581;
+ map: any;
+  heatmap: google.maps.visualization.HeatmapLayer; 
+  @ViewChild('map', {static:true}) mapElement:any;
+  @Input() gmapList=[];
+  gmpDupList:any[]=[];
+  markerArray:any[]=[];
+  current_value = [];
+  prev_value=[];
+  latitude = 43.879078;
+  longitude = -103.4615581;
  
     
-    *constructor( private apiService: ApiService ) {  }
+   constructor( private apiService: ApiService ) {  }
 
-   * ngOnChanges(changes:SimpleChanges): void{
-    *  for (let propName in changes) {
-     *   let chng = changes[propName];
-      *  this.current_value  = chng.currentValue;
-       * this.prev_value = chng.previousValue;
-      *}
-      *if (this.prev_value == undefined){
-       * console.log("inside if", this.gmpDupList)
-        *this.gmpDupList = this.current_value
-        *this.GmapChanges()
-      *}
+    ngOnChanges(changes:SimpleChanges): void{
+     for (let propName in changes) {
+        let chng = changes[propName];
+        this.current_value  = chng.currentValue;
+        this.prev_value = chng.previousValue;
+      }
+      if (this.prev_value == undefined){
+        console.log("inside if", this.gmpDupList)
+        this.gmpDupList = this.current_value
+        this.GmapChanges()
+      }
       else{
         this.gmpDupList = []
         this.markerArray =[]
